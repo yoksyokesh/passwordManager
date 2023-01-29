@@ -1,18 +1,19 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
-import { Box, Text, VStack, Input, Button } from "native-base";
+import { Box, Text, VStack, Input, Button, Spinner } from "native-base";
 
 const Login = () => {
-  const [masterPassword, setMasterPassword] = useState(null);
+  const [masterPassword, setMasterPassword] = useState(undefined);
   const [value, setValue] = useState("");
 
   const retrieveData = async () => {
     try {
       const localValue = await AsyncStorage.getItem("MASTER_PASSWORD");
-      if (localValue !== null) {
-        // We have data!!
-        setMasterPassword(localValue);
-      }
+      setMasterPassword(localValue);
+      // if (localValue !== null) {
+      //   // We have data!!
+      //   setMasterPassword(localValue);
+      // }
     } catch (error) {
       // Error retrieving data
     }
@@ -36,7 +37,9 @@ const Login = () => {
     console.log(masterPassword);
   }, [masterPassword]);
 
-  return (
+  return masterPassword === undefined ? (
+    <Spinner color="#333333" alignSelf={"center"} />
+  ) : (
     <VStack
       justifyContent={"center"}
       flex={1}
