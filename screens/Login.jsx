@@ -50,6 +50,7 @@ const Login = () => {
   };
 
   const resetPassword = () => {
+    setErrMsg("");
     removeItemValue("MASTER_PASSWORD");
     retrieveData();
   };
