@@ -1,25 +1,43 @@
-import { AsyncStorage } from "@react-native-async-storage/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { Box, Text, VStack, Input, Button } from "native-base";
 
 const Login = () => {
   const [masterPassword, setMasterPassword] = useState(null);
+  const [value, setValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  retrieveData = async () => {
+  const retrieveData = async () => {
     try {
-      const value = await AsyncStorage.getItem("MASTER_PASSWORD");
-      if (value !== null) {
+      const localValue = await AsyncStorage.getItem("MASTER_PASSWORD");
+      if (localValue !== null) {
         // We have data!!
-        console.log(value);
-        setMasterPassword(value);
+        setMasterPassword(localValue);
       }
     } catch (error) {
       // Error retrieving data
     }
   };
 
+  const storeData = async () => {
+    try {
+      await AsyncStorage.setItem("MASTER_PASSWORD", JSON.stringify(value));
+      const localValue = await AsyncStorage.getItem("MASTER_PASSWORD");
+    } catch (error) {
+      // Error saving data
+    }
+  };
+
+  const onProceed = () => {
+    setIsLoading(true);
+    setMasterPassword(value);
+    storeData();
+    setIsLoading(false);
+  };
+
   useEffect(() => {
     retrieveData();
+    console.log(masterPassword)
   });
 
   return (
@@ -46,8 +64,15 @@ const Login = () => {
         backgroundColor={"#ffffff"}
         _focus={{ borderColor: "#333333" }}
         borderColor="#333333"
+        value={value}
+        onChangeText={setValue}
       ></Input>
-      <Button width={32} bgColor="#333333">
+      <Button
+        width={32}
+        bgColor="#333333"
+        onPress={() => onProceed()}
+        isLoading={isLoading}
+      >
         Proceed
       </Button>
     </VStack>
