@@ -63,7 +63,12 @@ const Login = () => {
         value={value}
         onChangeText={setValue}
       ></Input>
-      <Button width={32} bgColor="#333333" onPress={() => onProceed()}>
+      <Button
+        width={32}
+        bgColor="#333333"
+        onPress={() => onProceed()}
+        _pressed={{ bgColor: "#706c61" }}
+      >
         Proceed
       </Button>
     </VStack>
