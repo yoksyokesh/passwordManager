@@ -11,10 +11,6 @@ const Login = () => {
     try {
       const localValue = await AsyncStorage.getItem("MASTER_PASSWORD");
       setMasterPassword(localValue);
-      // if (localValue !== null) {
-      //   // We have data!!
-      //   setMasterPassword(localValue);
-      // }
     } catch (error) {
       // Error retrieving data
       setErrMsg(String(error));
