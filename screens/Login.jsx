@@ -1,7 +1,27 @@
-import { AsyncStorage } from "react-native";
+import { AsyncStorage } from "@react-native-async-storage/async-storage";
+import { useEffect, useState } from "react";
 import { Box, Text, VStack, Input, Button } from "native-base";
 
 const Login = () => {
+  const [masterPassword, setMasterPassword] = useState(null);
+
+  retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem("MASTER_PASSWORD");
+      if (value !== null) {
+        // We have data!!
+        console.log(value);
+        setMasterPassword(value);
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+  };
+
+  useEffect(() => {
+    retrieveData();
+  });
+
   return (
     <VStack
       justifyContent={"center"}
@@ -16,7 +36,7 @@ const Login = () => {
         fontSize={25}
         color="#333333"
       >
-        Enter master password
+        {masterPassword ? "Enter master password" : "Create master password"}
       </Text>
       <Input
         placeholder="password"
