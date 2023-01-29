@@ -1,5 +1,5 @@
 import React from "react";
-import { NativeBaseProvider, Box } from "native-base";
+import { NativeBaseProvider, Box, useSafeArea} from "native-base";
 import { NavigationContainer } from "@react-navigation/native";
 import { LoginScreen } from "./screens";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -9,7 +9,7 @@ export default function App() {
 
   return (
     <NativeBaseProvider>
-      <Box safeArea flex={1}>
+      <Box flex={1} backgroundColor='#000000'>
         <NavigationContainer>
           <Stack.Navigator
             initialRouteName="Login"
