@@ -38,7 +38,7 @@ const Login = () => {
   }, [masterPassword]);
 
   return masterPassword === undefined ? (
-    <Spinner color="#333333" alignSelf={"center"} />
+    <Spinner flex={1} color="#333333" size={"lg"} />
   ) : (
     <VStack
       justifyContent={"center"}
