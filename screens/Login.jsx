@@ -5,6 +5,7 @@ import { Box, Text, VStack, Input, Button, Spinner } from "native-base";
 const Login = () => {
   const [masterPassword, setMasterPassword] = useState(undefined);
   const [value, setValue] = useState("");
+  const [errMsg, setErrMsg] = useState("");
 
   const retrieveData = async () => {
     try {
@@ -28,6 +29,11 @@ const Login = () => {
   };
 
   const onProceed = () => {
+    setErrMsg("");
+    if (!value) {
+      setErrMsg("Enter valid password");
+      return;
+    }
     setMasterPassword(value);
     storeData();
   };
@@ -53,7 +59,9 @@ const Login = () => {
         fontSize={25}
         color="#333333"
       >
-        {masterPassword ? "Enter master password" : "Create master password"}
+        {masterPassword !== null
+          ? "Enter master password"
+          : "Create master password"}
       </Text>
       <Input
         placeholder="password"
@@ -74,6 +82,7 @@ const Login = () => {
       >
         Proceed
       </Button>
+      <Text color={"#ff3737"}>{errMsg}</Text>
     </VStack>
   );
 };
