@@ -40,10 +40,17 @@ const Login = () => {
       storeData();
     }
     //validate entered password
-    else{
-      if(inputFieldValue !== masterPassword) setErrMsg("Wrong password. Please enter correct password")
-      else console.log('validated...')
+    else {
+      if (inputFieldValue !== masterPassword)
+        setErrMsg("Wrong password. Please enter correct password");
+      else console.log("validated...");
     }
+  };
+
+  const resetPassword = () => {
+    setInputFieldValue(null);
+    storeData();
+    setMasterPassword(null);
   };
 
   useEffect(() => {
@@ -90,6 +97,9 @@ const Login = () => {
       >
         Proceed
       </Button>
+      <Text color={"#706c61"} onPress={() => resetPassword()}>
+        Forgot password
+      </Text>
       <Text color={"#ff3737"}>{errMsg}</Text>
     </VStack>
   );
