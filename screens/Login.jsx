@@ -17,6 +17,7 @@ const Login = () => {
       // }
     } catch (error) {
       // Error retrieving data
+      setErrMsg(String(error));
     }
   };
 
@@ -26,6 +27,7 @@ const Login = () => {
       await retrieveData();
     } catch (error) {
       // Error saving data
+      setErrMsg(String(error));
     }
   };
 
@@ -41,9 +43,6 @@ const Login = () => {
     }
     //validate entered password
     else {
-      console.log("input field -> ", inputFieldValue);
-      console.log(inputFieldValue.length);
-      console.log(masterPassword.length);
       if (inputFieldValue !== masterPassword)
         setErrMsg("Wrong password. Please enter correct password");
       else console.log("validated...");
@@ -57,13 +56,14 @@ const Login = () => {
 
   useEffect(() => {
     retrieveData();
-    console.log("master password -> ", masterPassword);
   }, [masterPassword]);
 
   const removeItemValue = async (key) => {
     try {
       await AsyncStorage.removeItem(key);
-    } catch (error) {}
+    } catch (error) {
+      setErrMsg(String(error));
+    }
   };
 
   return masterPassword === undefined ? (
