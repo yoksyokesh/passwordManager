@@ -4,7 +4,7 @@ import { Box, Text, VStack, Input, Button, Spinner } from "native-base";
 
 const Login = () => {
   const [masterPassword, setMasterPassword] = useState(undefined);
-  const [value, setValue] = useState("");
+  const [inputFieldValue, setInputFieldValue] = useState("");
   const [errMsg, setErrMsg] = useState("");
 
   const retrieveData = async () => {
@@ -22,7 +22,7 @@ const Login = () => {
 
   const storeData = async () => {
     try {
-      await AsyncStorage.setItem("MASTER_PASSWORD", value);
+      await AsyncStorage.setItem("MASTER_PASSWORD", inputFieldValue);
     } catch (error) {
       // Error saving data
     }
@@ -30,12 +30,20 @@ const Login = () => {
 
   const onProceed = () => {
     setErrMsg("");
-    if (!value) {
+    if (!inputFieldValue) {
       setErrMsg("Enter valid password");
       return;
     }
-    setMasterPassword(value);
-    storeData();
+    //creating master password, masterPassword can be null only when user haven't created a password yet
+    if (masterPassword === null) {
+      setMasterPassword(inputFieldValue);
+      storeData();
+    }
+    //validate entered password
+    else{
+      if(inputFieldValue !== masterPassword) setErrMsg("Wrong password. Please enter correct password")
+      else console.log('validated...')
+    }
   };
 
   useEffect(() => {
@@ -71,8 +79,8 @@ const Login = () => {
         backgroundColor={"#ffffff"}
         _focus={{ borderColor: "#333333" }}
         borderColor="#333333"
-        value={value}
-        onChangeText={setValue}
+        value={inputFieldValue}
+        onChangeText={setInputFieldValue}
       ></Input>
       <Button
         width={32}
