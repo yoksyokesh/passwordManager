@@ -5,7 +5,6 @@ import { Box, Text, VStack, Input, Button } from "native-base";
 const Login = () => {
   const [masterPassword, setMasterPassword] = useState(null);
   const [value, setValue] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
 
   const retrieveData = async () => {
     try {
@@ -21,24 +20,21 @@ const Login = () => {
 
   const storeData = async () => {
     try {
-      await AsyncStorage.setItem("MASTER_PASSWORD", JSON.stringify(value));
-      const localValue = await AsyncStorage.getItem("MASTER_PASSWORD");
+      await AsyncStorage.setItem("MASTER_PASSWORD", value);
     } catch (error) {
       // Error saving data
     }
   };
 
   const onProceed = () => {
-    setIsLoading(true);
     setMasterPassword(value);
     storeData();
-    setIsLoading(false);
   };
 
   useEffect(() => {
     retrieveData();
-    console.log(masterPassword)
-  });
+    console.log(masterPassword);
+  }, [masterPassword]);
 
   return (
     <VStack
@@ -67,12 +63,7 @@ const Login = () => {
         value={value}
         onChangeText={setValue}
       ></Input>
-      <Button
-        width={32}
-        bgColor="#333333"
-        onPress={() => onProceed()}
-        isLoading={isLoading}
-      >
+      <Button width={32} bgColor="#333333" onPress={() => onProceed()}>
         Proceed
       </Button>
     </VStack>
