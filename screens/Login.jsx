@@ -4,7 +4,7 @@ import { Box, Text, VStack, Input, Button, Spinner } from "native-base";
 
 const Login = () => {
   const [masterPassword, setMasterPassword] = useState(undefined);
-  const [inputFieldValue, setInputFieldValue] = useState("");
+  const [inputFieldValue, setInputFieldValue] = useState();
   const [errMsg, setErrMsg] = useState("");
 
   const retrieveData = async () => {
@@ -20,9 +20,10 @@ const Login = () => {
     }
   };
 
-  const storeData = async () => {
+  const storeData = async (master_password) => {
     try {
-      await AsyncStorage.setItem("MASTER_PASSWORD", inputFieldValue);
+      await AsyncStorage.setItem("MASTER_PASSWORD", master_password);
+      await retrieveData();
     } catch (error) {
       // Error saving data
     }
@@ -36,11 +37,13 @@ const Login = () => {
     }
     //creating master password, masterPassword can be null only when user haven't created a password yet
     if (masterPassword === null) {
-      setMasterPassword(inputFieldValue);
-      storeData();
+      storeData(inputFieldValue);
     }
     //validate entered password
     else {
+      console.log("input field -> ", inputFieldValue);
+      console.log(inputFieldValue.length);
+      console.log(masterPassword.length);
       if (inputFieldValue !== masterPassword)
         setErrMsg("Wrong password. Please enter correct password");
       else console.log("validated...");
@@ -48,15 +51,20 @@ const Login = () => {
   };
 
   const resetPassword = () => {
-    setInputFieldValue(null);
-    storeData();
-    setMasterPassword(null);
+    removeItemValue("MASTER_PASSWORD");
+    retrieveData();
   };
 
   useEffect(() => {
     retrieveData();
-    console.log(masterPassword);
+    console.log("master password -> ", masterPassword);
   }, [masterPassword]);
+
+  const removeItemValue = async (key) => {
+    try {
+      await AsyncStorage.removeItem(key);
+    } catch (error) {}
+  };
 
   return masterPassword === undefined ? (
     <Spinner flex={1} color="#333333" size={"lg"} />
