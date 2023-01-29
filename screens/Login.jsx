@@ -12,8 +12,8 @@ const Login = () => {
     >
       <Text
         alignSelf={"center"}
-        fontWeight="bold"
-        fontSize={30}
+        fontWeight="semibold"
+        fontSize={25}
         color="#333333"
       >
         Enter master password
@@ -24,10 +24,10 @@ const Login = () => {
         width={80}
         color="#333333"
         backgroundColor={"#ffffff"}
-        _focus={{ borderColor: "#706c61" }}
-        borderColor="#706c61"
+        _focus={{ borderColor: "#333333" }}
+        borderColor="#333333"
       ></Input>
-      <Button width={32} bgColor="#706c61">
+      <Button width={32} bgColor="#333333">
         Proceed
       </Button>
     </VStack>
